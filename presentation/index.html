@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solviora — Projektplan & Samarbete</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:#1C3A2A; --green-mid:#2B5240; --sage:#8B9E8A;
+  --gold:#C9A84C; --gold-light:#E8D5A3; --cream:#F5F0E8;
+  --warm-white:#FAF7F2; --text:#1C1C1A; --text-mid:#4A4A46;
+  --text-light:#7A7A74; --border:#DDD8CE;
+  --red:#C0392B; --amber:#E67E22; --blue:#2471A3;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--warm-white);color:var(--text);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+.top-nav{background:var(--green);padding:0 40px;display:flex;gap:0;overflow-x:auto;position:sticky;top:0;z-index:100;scrollbar-width:none;}
+.top-nav::-webkit-scrollbar{display:none;}
+.top-nav a{color:rgba(255,255,255,.55);font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding:15px 16px;white-space:nowrap;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+.top-nav a:hover,.top-nav a.active{color:#fff;border-bottom-color:var(--gold);}
+
+.slide{min-height:100vh;padding:72px 60px;display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--border);}
+.slide-inner{max-width:1000px;margin:0 auto;width:100%;}
+.slide-num{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.slide-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:400;color:var(--green);line-height:1.1;margin-bottom:14px;}
+.slide-title em{font-style:italic;}
+.slide-sub{font-size:15px;font-weight:300;color:var(--text-mid);max-width:640px;line-height:1.7;margin-bottom:40px;}
+
+/* COVER */
+.cover{background:var(--green);position:relative;overflow:hidden;}
+.cover-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(12,28,18,.85) 0%,rgba(28,58,42,.6) 100%);}
+.cover-content{position:relative;z-index:2;max-width:1000px;margin:0 auto;}
+.cover-eyebrow{font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:24px;}
+.cover-title{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,6vw,76px);font-weight:300;color:#fff;line-height:1.05;margin-bottom:24px;}
+.cover-title em{font-style:italic;color:var(--gold-light);}
+.cover-sub{font-size:17px;font-weight:300;color:rgba(255,255,255,.7);max-width:520px;line-height:1.65;}
+.cover-meta{margin-top:64px;display:flex;gap:48px;flex-wrap:wrap;}
+.cover-stat .num{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:#fff;}
+.cover-stat .lbl{font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.07em;margin-top:2px;}
+
+/* GRIDS */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:24px;}
+.card.green{background:var(--green);border-color:var(--green);}
+.card.cream{background:var(--cream);}
+.card-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:8px;}
+.card-label.gold{color:var(--gold);}
+.card-value{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--green);line-height:1;margin-bottom:4px;}
+.card-value.white{color:#fff;}
+.card-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:6px;}
+.card-title.white{color:#fff;}
+.card-body{font-size:13px;font-weight:300;color:var(--text-mid);line-height:1.6;}
+.card-body.white{color:rgba(255,255,255,.7);}
+
+/* BADGES */
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;}
+.badge-green{background:#e6f4ea;color:#1e7e34;}
+.badge-amber{background:#fef3cd;color:#9a6700;}
+.badge-red{background:#fde8e8;color:var(--red);}
+.badge-blue{background:#e8f0fb;color:var(--blue);}
+.badge-gold{background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.3);}
+
+/* FUNNEL */
+.funnel-flow{display:flex;align-items:stretch;gap:0;margin:32px 0;overflow-x:auto;}
+.funnel-step{flex:1;min-width:145px;background:var(--cream);padding:22px 18px;position:relative;border-top:3px solid var(--border);}
+.funnel-step.active{border-top-color:var(--gold);background:#fff;}
+.funnel-step.cta{border-top-color:var(--green);background:var(--green);}
+.funnel-arrow{position:absolute;right:-13px;top:50%;transform:translateY(-50%);width:0;height:0;border-top:13px solid transparent;border-bottom:13px solid transparent;border-left:13px solid var(--cream);z-index:2;}
+.funnel-step.active .funnel-arrow{border-left-color:#fff;}
+.funnel-step.cta .funnel-arrow{border-left-color:var(--green);}
+.funnel-step:last-child .funnel-arrow{display:none;}
+.fs-num{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:.1em;margin-bottom:8px;}
+.fs-title{font-size:13px;font-weight:600;color:var(--green);margin-bottom:6px;line-height:1.3;}
+.fs-title.white{color:#fff;}
+.fs-body{font-size:12px;font-weight:300;color:var(--text-mid);line-height:1.5;}
+.fs-body.white{color:rgba(255,255,255,.7);}
+.fs-metric{margin-top:10px;font-size:11px;font-weight:500;color:var(--sage);}
+.fs-metric.gold{color:var(--gold);}
+
+/* AD MOCKUPS */
+.ad-mockup{border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.12);max-width:300px;background:#fff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;}
+.ad-fb-header{padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f0f0;}
+.ad-avatar{width:34px;height:34px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;color:#fff;}
+.ad-page-name{font-size:13px;font-weight:600;color:#050505;line-height:1.2;}
+.ad-sponsored{font-size:11px;color:#606770;}
+.ad-body-text{padding:10px 14px;font-size:13px;color:#050505;line-height:1.5;}
+.ad-image-area{width:100%;aspect-ratio:1;position:relative;overflow:hidden;}
+.ad-image-caption{background:var(--green);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;}
+.ad-caption-url{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;}
+.ad-caption-headline{font-size:14px;font-weight:700;color:#fff;line-height:1.2;margin-top:2px;}
+.ad-caption-sub{font-size:12px;color:rgba(255,255,255,.7);margin-top:1px;}
+.ad-cta-btn{background:#fff;color:var(--green);font-size:12px;font-weight:700;padding:7px 14px;border-radius:4px;white-space:nowrap;flex-shrink:0;}
+.ad-reactions{padding:6px 14px 10px;font-size:12px;color:#606770;display:flex;justify-content:space-between;}
+
+/* GOOGLE AD */
+.google-ad{background:#fff;border:1px solid #dfe1e5;border-radius:8px;padding:16px 20px;max-width:540px;}
+.ga-ad-label{font-size:11px;color:#188038;font-weight:500;border:1px solid #188038;padding:1px 5px;border-radius:3px;display:inline-block;margin-bottom:4px;}
+.ga-url{font-size:13px;color:#202124;margin-bottom:2px;}
+.ga-title{font-size:18px;color:#1a0dab;line-height:1.3;margin-bottom:4px;}
+.ga-desc{font-size:13px;color:#4d5156;line-height:1.5;}
+.ga-sitelinks{display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;}
+.ga-sitelink{font-size:13px;color:#1a0dab;}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:32px;}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1px;background:var(--border);}
+.tl-item{position:relative;margin-bottom:28px;}
+.tl-dot{position:absolute;left:-28px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid #fff;box-shadow:0 0 0 2px var(--gold);}
+.tl-week{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.tl-title{font-size:15px;font-weight:500;color:var(--green);margin-bottom:4px;}
+.tl-body{font-size:13px;font-weight:300;color:var(--text-mid);line-height:1.6;}
+
+/* TABLES */
+.cost-table{width:100%;border-collapse:collapse;font-size:13px;}
+.cost-table th{text-align:left;font-weight:600;color:var(--text);padding:10px 12px;border-bottom:2px solid var(--green);font-size:12px;text-transform:uppercase;letter-spacing:.06em;}
+.cost-table td{padding:11px 12px;border-bottom:1px solid var(--border);color:var(--text-mid);vertical-align:top;line-height:1.5;}
+.cost-table tr:hover td{background:var(--cream);}
+.cost-table .total td{font-weight:600;color:var(--green);border-top:2px solid var(--green);border-bottom:none;font-size:14px;}
+.cost-table .section-header td{background:var(--cream);font-weight:600;color:var(--green);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:8px 12px;}
+
+/* SETUP */
+.setup-item{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--border);}
+.setup-item:last-child{border-bottom:none;}
+.setup-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;}
+.setup-text{flex:1;}
+.setup-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.setup-body{font-size:13px;font-weight:300;color:var(--text-mid);line-height:1.55;}
+
+/* ASSET ROWS */
+.asset-row{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border);}
+.asset-priority{width:64px;flex-shrink:0;padding-top:2px;}
+.asset-content{flex:1;}
+.asset-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.asset-body{font-size:13px;font-weight:300;color:var(--text-mid);line-height:1.55;}
+.asset-bg{font-size:12px;color:var(--text-light);margin-top:4px;font-style:italic;}
+
+/* Q ROWS — bilingual */
+.q-row{padding:16px 0;border-bottom:1px solid var(--border);}
+.q-row:last-child{border-bottom:none;}
+.q-sv{font-size:14px;font-weight:500;color:var(--green);margin-bottom:4px;}
+.q-bg{font-size:13px;font-weight:300;color:var(--text-mid);font-style:italic;margin-bottom:4px;}
+.q-note{font-size:12px;color:var(--text-light);line-height:1.5;margin-top:4px;}
+
+/* INFO BOXES */
+.info-box{border-radius:8px;padding:14px 18px;margin:14px 0;}
+.info-box p{font-size:13px;line-height:1.65;}
+.info-box.sage{background:rgba(139,158,138,.12);border-left:3px solid var(--sage);}
+.info-box.sage p{color:var(--text-mid);}
+.info-box.gold{background:rgba(201,168,76,.1);border-left:3px solid var(--gold);}
+.info-box.gold p{color:#7a5c00;}
+.info-box.green{background:rgba(28,58,42,.06);border-left:3px solid var(--green);}
+.info-box.green p{color:var(--green-mid);}
+.info-box.red{background:#fde8e8;border-left:3px solid var(--red);}
+.info-box.red p{color:var(--red);}
+
+/* MATH */
+.math-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
+.math-label{font-size:14px;color:var(--text-mid);}
+.math-val{font-size:14px;font-weight:500;color:var(--text);}
+.math-row.total{border-top:2px solid var(--green);border-bottom:none;margin-top:4px;}
+.math-row.total .math-label{font-weight:600;color:var(--green);}
+.math-row.total .math-val{font-size:18px;color:var(--green);}
+
+h3{font-size:15px;font-weight:600;color:var(--green);margin:28px 0 12px;}
+h3:first-child{margin-top:0;}
+ul{padding-left:18px;}
+li{font-size:13px;color:var(--text-mid);line-height:1.65;margin-bottom:4px;}
+strong{color:var(--text);font-weight:600;}
+
+@media(max-width:768px){
+  .slide{padding:48px 24px;}
+  .two-col,.three-col,.four-col{grid-template-columns:1fr;}
+  .funnel-flow{flex-direction:column;}
+  .funnel-arrow{display:none;}
+  .top-nav{padding:0 12px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="#cover">Intro</a>
+  <a href="#funnel">Funnel</a>
+  <a href="#roles">Roller & ansvar</a>
+  <a href="#ads-fb">Facebook-annonser</a>
+  <a href="#ads-google">Google-annonser</a>
+  <a href="#setup">Setup</a>
+  <a href="#costs">Budget</a>
+  <a href="#math">Kalkyl</a>
+  <a href="#ersattning">Ersättning</a>
+  <a href="#assets">Material vi behöver</a>
+  <a href="#timeline">Tidslinje</a>
+  <a href="#planb">Plan B/C/D</a>
+  <a href="#questions">Frågor</a>
+</nav>
+
+<!-- ═══ COVER ═══ -->
+<section class="slide cover" id="cover" style="min-height:100vh;padding:80px 60px;">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="csky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3d5c"/><stop offset="100%" stop-color="#0F2019"/></linearGradient>
+      <radialGradient id="cglow" cx="75%" cy="30%" r="35%"><stop offset="0%" stop-color="#C9A84C" stop-opacity=".3"/><stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/></radialGradient>
+    </defs>
+    <rect width="1200" height="700" fill="url(#csky)"/>
+    <rect width="1200" height="700" fill="url(#cglow)"/>
+    <path d="M0 500 Q300 400 600 450 Q900 380 1200 420 L1200 700 L0 700Z" fill="#1C3A2A" opacity=".6"/>
+    <path d="M0 580 Q200 520 500 550 Q800 510 1200 530 L1200 700 L0 700Z" fill="#0F2019" opacity=".8"/>
+  </svg>
+  <div class="cover-overlay"></div>
+  <div class="cover-content">
+    <p class="cover-eyebrow">Solviora · Projektplan 2026</p>
+    <h1 class="cover-title">Bulgariska fastigheter —<br><em>till den svenska marknaden</em></h1>
+    <p class="cover-sub">En komplett genomgång av strategi, roller, annonser, budget och vår gemensamma väg framåt.</p>
+    <div class="cover-meta">
+      <div class="cover-stat"><div class="num">4 steg</div><div class="lbl">Annons → bokad resa</div></div>
+      <div class="cover-stat"><div class="num">19 000 kr</div><div class="lbl">Per reseplats</div></div>
+      <div class="cover-stat"><div class="num">45–65+</div><div class="lbl">Målgrupp ålder</div></div>
+      <div class="cover-stat"><div class="num">0 kr/mån</div><div class="lbl">Fast teknisk kostnad</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FUNNEL ═══ -->
+<section class="slide" id="funnel">
+  <div class="slide-inner">
+    <p class="slide-num">01 — Funneln</p>
+    <h2 class="slide-title">Fyra steg från <em>annons till bokad resa</em></h2>
+    <p class="slide-sub">Varje steg har ett enda syfte. Ingen del av kedjan försöker göra mer än ett jobb.</p>
+
+    <div class="funnel-flow">
+      <div class="funnel-step active">
+        <div class="funnel-arrow"></div>
+        <div class="fs-num">STEG 1</div>
+        <div class="fs-title">Annons</div>
+        <div class="fs-body">Facebook, Instagram och Google Search. En bild och en mening som stoppar scrollandet och väcker nyfikenhet.</div>
+        <div class="fs-metric">Mål: 2–4% klickfrekvens</div>
+      </div>
+      <div class="funnel-step active">
+        <div class="funnel-arrow"></div>
+        <div class="fs-num">STEG 2</div>
+        <div class="fs-title">Landningssida</div>
+        <div class="fs-body">solviora.se — full pitch, itinerarie, FAQ. Ett formulär. En CTA. Den som fyller i är en kvalificerad lead.</div>
+        <div class="fs-metric">Mål: 15–25% fyller i formulär</div>
+      </div>
+      <div class="funnel-step active">
+        <div class="funnel-arrow"></div>
+        <div class="fs-num">STEG 3</div>
+        <div class="fs-title">Bokat möte</div>
+        <div class="fs-body">Leaden bokar ett samtal direkt via vår bokningslänk. Mötet hamnar automatiskt i kalendern. Vi håller i samtalet och tolkar.</div>
+        <div class="fs-metric">Mål: 30–40% bokar möte</div>
+      </div>
+      <div class="funnel-step cta">
+        <div class="funnel-arrow"></div>
+        <div class="fs-num" style="color:var(--gold);">STEG 4</div>
+        <div class="fs-title white">Betald resa</div>
+        <div class="fs-body white">Betalningslänk på 19 000 kr skickas efter mötet. Platsen är säkrad. Resan fylls.</div>
+        <div class="fs-metric gold">3 500 kr per bekräftad plats → vår ersättning</div>
+      </div>
+    </div>
+
+    <div class="three-col" style="margin-top:32px;">
+      <div class="card cream">
+        <div class="card-label">Kanal 1 — Primär</div>
+        <div class="card-title">Facebook & Instagram</div>
+        <div class="card-body">Målgruppen 45–65+ är aktiv på Facebook. Livsstilsbilder och priskontrast fungerar bra. Starta här med A/B-test av två annonskoncept.</div>
+      </div>
+      <div class="card cream">
+        <div class="card-label">Kanal 2</div>
+        <div class="card-title">Google Search</div>
+        <div class="card-body">Fångar den som aktivt söker "köpa hus Bulgarien" — längre i sin research, högre intention. Aktiveras vecka 2–3.</div>
+      </div>
+      <div class="card cream">
+        <div class="card-label">Kanal 3</div>
+        <div class="card-title">Retargeting</div>
+        <div class="card-body">Träffar besökare som lämnade sidan utan att fylla i formuläret. Aktiveras när pixeln samlat 100+ besökare.</div>
+      </div>
+    </div>
+
+    <div class="info-box gold" style="margin-top:8px;">
+      <p><strong>Vad är en lead?</strong> En lead är en person som sett annonsen, klickat sig till landningssidan och fyllt i formuläret med namn, e-post och telefon. Det är inte samma som ett annonsklick — ett klick är bara ett besök på sidan. En lead är någon som aktivt räcker upp handen och säger "jag är intresserad." Det är steget från klick till ifyllt formulär som kostar mest arbete att optimera.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ROLES ═══ -->
+<section class="slide" id="roles" style="background:var(--cream);">
+  <div class="slide-inner">
+    <p class="slide-num">02 — Roller & ansvar</p>
+    <h2 class="slide-title">Vem ansvarar för vad — <em>i den här fasen</em></h2>
+    <p class="slide-sub">Vi har olika kompetenser och bygger på dem. Rollerna är tydliga nu för att samarbetet ska bli effektivt — och kan utvecklas allteftersom vi lär oss mer om varandra.</p>
+
+    <div class="two-col" style="align-items:start;gap:48px;">
+      <div>
+        <h3>Svenska marknaden — min sida</h3>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:rgba(201,168,76,.15);">📣</div>
+          <div class="setup-text">
+            <div class="setup-title">Marknadsföring & annonser</div>
+            <div class="setup-body">All annonsering på Facebook, Instagram och Google — kreativa beslut, copywriting, A/B-testning och löpande optimering. Full kontroll och transparens i vad som körs och varför.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:rgba(201,168,76,.15);">🌐</div>
+          <div class="setup-text">
+            <div class="setup-title">Landningssida & teknisk funnel</div>
+            <div class="setup-body">Hela kedjan från annonsklick till ifyllt formulär — landningssidan, formulär, bokningssystem och konverteringsspårning. Optimeras löpande baserat på data.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:rgba(201,168,76,.15);">📅</div>
+          <div class="setup-text">
+            <div class="setup-title">Kvalificerade leads till kalendern</div>
+            <div class="setup-body">Leads som fyllt i formuläret följs upp och bokas in på möten. Mötet hamnar direkt i vår gemensamma kalender — inga manuella steg behövs från bulgarisk sida.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:rgba(201,168,76,.15);">🗣️</div>
+          <div class="setup-text">
+            <div class="setup-title">Tolkning på kundmötena</div>
+            <div class="setup-body">Jag deltar som tolk på varje möte med svenska kunder — säkerställer att kommunikationen fungerar perfekt i båda riktningar och att inga nyanser går förlorade.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Bulgarien & fastighetsaffären</h3>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:rgba(28,58,42,.08);">🏗️</div>
+          <div class="setup-text">
+            <div class="setup-title">Fastigheter & byggprocess</div>
+            <div class="setup-body">Ansvar för fastigheterna, färdigställandetidslinje, byggteam och allt som händer på marken i Bulgarien.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:rgba(28,58,42,.08);">✈️</div>
+          <div class="setup-text">
+            <div class="setup-title">Resan & upplevelsen på plats</div>
+            <div class="setup-body">Arrangera och genomföra de 4 dagarna — flyg, boende, måltider, visningar och guidning. Det är vårt gemensamma varumärke och vår leverans.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:rgba(28,58,42,.08);">💼</div>
+          <div class="setup-text">
+            <div class="setup-title">Säljsamtal & fastighetskontrakt</div>
+            <div class="setup-body">Hålla i kundmötena, presentera fastigheterna, hantera kontrakt och juridik kopplad till köp. Jag finns med som tolk under hela samtalet.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:rgba(28,58,42,.08);">💳</div>
+          <div class="setup-text">
+            <div class="setup-title">Annonsbudget — direkt betalning</div>
+            <div class="setup-body">Annonsbudgeten betalas direkt till Meta och Google. Full insyn och kontroll — inga pengar går via ett mellanled. Tydlighet från dag ett.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FACEBOOK ADS ═══ -->
+<section class="slide" id="ads-fb">
+  <div class="slide-inner">
+    <p class="slide-num">03 — Facebook & Instagram-annonser</p>
+    <h2 class="slide-title">Exakt vad en <em>svensk 45–65-åring</em> ser</h2>
+    <p class="slide-sub">Tre annonskoncept. Annons A och B testas mot varandra. Annons C aktiveras som retargeting för de som besökt sidan men inte fyllt i formuläret.</p>
+
+    <div class="two-col" style="align-items:start;gap:40px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <span class="badge badge-green">Annons A — Priskontrast</span>
+          <span style="font-size:12px;color:var(--text-light);">Testa först</span>
+        </div>
+        <div class="ad-mockup">
+          <div class="ad-fb-header">
+            <div class="ad-avatar">S</div>
+            <div><div class="ad-page-name">Solviora</div><div class="ad-sponsored">Sponsrad · 🌍</div></div>
+          </div>
+          <div class="ad-body-text">De flesta svenskar spenderar 30 år på att ha råd med 4 veckors frihet om året.<br><br>Det finns ett annat sätt.<br><br>Vi tar med ett litet sällskap till Bulgarien — fyra dagar, utvalda fastigheter, mat, boende och guidade visningar. Allt inkluderat.<br><br><strong>Begränsat antal platser. →</strong></div>
+          <div class="ad-image-area">
+            <svg width="100%" height="100%" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="sk2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3d5c"/><stop offset="100%" stop-color="#2B5240"/></linearGradient>
+                <radialGradient id="su2" cx="70%" cy="30%" r="25%"><stop offset="0%" stop-color="#C9A84C" stop-opacity=".6"/><stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/></radialGradient>
+              </defs>
+              <rect width="300" height="300" fill="url(#sk2)"/>
+              <rect width="300" height="300" fill="url(#su2)"/>
+              <path d="M0 200 Q75 165 150 185 Q225 155 300 170 L300 300 L0 300Z" fill="#1C3A2A"/>
+              <path d="M0 245 Q100 215 200 230 Q260 215 300 222 L300 300 L0 300Z" fill="#0F2019"/>
+              <rect x="55" y="202" width="36" height="26" fill="#0a1810"/>
+              <polygon points="46,202 100,202 73,180" fill="#0d1e15"/>
+              <rect x="168" y="195" width="46" height="30" fill="#0a1810"/>
+              <polygon points="157,195 225,195 191,168" fill="#0d1e15"/>
+              <rect x="8" y="10" width="150" height="56" rx="4" fill="rgba(0,0,0,.55)"/>
+              <text x="16" y="32" font-family="Georgia,serif" font-size="10" fill="rgba(255,255,255,.7)">Stockholm vs Bulgarien</text>
+              <text x="16" y="54" font-family="Georgia,serif" font-size="20" font-weight="bold" fill="#E8D5A3">10–15× billigare</text>
+            </svg>
+          </div>
+          <div class="ad-image-caption">
+            <div><div class="ad-caption-url">solviora.se</div><div class="ad-caption-headline">Vad 300 000 kr köper i Bulgarien</div><div class="ad-caption-sub">Guidad fastighetsresa · Allt inkluderat</div></div>
+            <div class="ad-cta-btn">Läs mer</div>
+          </div>
+          <div class="ad-reactions"><span>👍 ❤️ 43 reaktioner</span><span>12 kommentarer</span></div>
+        </div>
+        <div class="info-box sage" style="margin-top:12px;max-width:300px;">
+          <p><strong>Bild:</strong> Mörk kvällsbild av bulgarska byhus eller kust. Text-overlay med priskontrast. Hög kontrast stoppar scrollandet med en konkret siffra.</p>
+        </div>
+      </div>
+
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <span class="badge badge-amber">Annons B — Livsstil</span>
+          <span style="font-size:12px;color:var(--text-light);">Testa parallellt</span>
+        </div>
+        <div class="ad-mockup">
+          <div class="ad-fb-header">
+            <div class="ad-avatar">S</div>
+            <div><div class="ad-page-name">Solviora</div><div class="ad-sponsored">Sponsrad · 🌍</div></div>
+          </div>
+          <div class="ad-body-text">Sverige är dyrt. Bulgarien är inte det.<br><br>EU-land. Svarta havet. 300 soldagar om året. Och fastigheter som kostar en bråkdel av vad du betalar hemma.<br><br>Vi visar dig allt på 4 dagar — för ett litet, utvalt sällskap. →</div>
+          <div class="ad-image-area">
+            <svg width="100%" height="100%" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="se3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1e4a6e"/><stop offset="100%" stop-color="#0d2030"/></linearGradient>
+                <linearGradient id="sk3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8c97a"/><stop offset="60%" stop-color="#c4773a"/><stop offset="100%" stop-color="#1e3a28"/></linearGradient>
+                <radialGradient id="sg" cx="50%" cy="38%" r="18%"><stop offset="0%" stop-color="#fff" stop-opacity=".9"/><stop offset="100%" stop-color="#e8c97a" stop-opacity="0"/></radialGradient>
+              </defs>
+              <rect width="300" height="150" fill="url(#sk3)"/>
+              <circle cx="150" cy="95" r="24" fill="#fff" opacity=".9"/>
+              <rect width="300" height="300" fill="url(#sg)" opacity=".5"/>
+              <rect x="0" y="146" width="300" height="154" fill="url(#se3)"/>
+              <rect x="0" y="245" width="300" height="55" fill="#1a2e20" opacity=".85"/>
+              <rect x="0" y="243" width="300" height="4" fill="#C9A84C" opacity=".7"/>
+              <text x="150" y="278" font-family="Georgia,serif" font-size="12" fill="rgba(255,255,255,.85)" text-anchor="middle">Svarta havet, Bulgarien</text>
+            </svg>
+          </div>
+          <div class="ad-image-caption">
+            <div><div class="ad-caption-url">solviora.se</div><div class="ad-caption-headline">Nästa kapitel — i solen</div><div class="ad-caption-sub">4-dagars guidad fastighetsresa · 19 000 kr</div></div>
+            <div class="ad-cta-btn">Ansök</div>
+          </div>
+          <div class="ad-reactions"><span>👍 ❤️ 😮 67 reaktioner</span><span>8 kommentarer</span></div>
+        </div>
+        <div class="info-box sage" style="margin-top:12px;max-width:300px;">
+          <p><strong>Bild:</strong> Solnedgång vid Svarta havet sedd från en terrass. Varm, naturlig känsla utan text-overlay. Väcker känslan av "det här vill jag ha."</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:56px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+        <span class="badge badge-blue">Annons C — Retargeting</span>
+        <span style="font-size:13px;color:var(--text-light);">Aktiveras när pixeln samlat 100+ besökare — ca vecka 2–3</span>
+      </div>
+
+      <div class="two-col" style="align-items:start;gap:48px;">
+        <div>
+          <div class="ad-mockup" style="max-width:340px;">
+            <div class="ad-fb-header">
+              <div class="ad-avatar">S</div>
+              <div><div class="ad-page-name">Solviora</div><div class="ad-sponsored">Sponsrad · 🌍</div></div>
+            </div>
+            <div class="ad-body-text">Du tittade — platsen finns fortfarande.<br><br>Vi förstår om det känns som ett stort steg. Det är det inte.<br><br>Resan kostar 19 000 kr och inkluderar allt. Du behöver inte köpa någonting efteråt. Men platserna är begränsade. →</div>
+            <div class="ad-image-area" style="aspect-ratio:1.91;">
+              <svg width="100%" height="100%" viewBox="0 0 520 272" xmlns="http://www.w3.org/2000/svg">
+                <rect width="520" height="272" fill="#1C3A2A"/>
+                <text x="260" y="95" font-family="Georgia,serif" font-size="36" font-weight="300" fill="rgba(255,255,255,.1)" text-anchor="middle">Solviora</text>
+                <text x="260" y="150" font-family="Georgia,serif" font-size="22" fill="#E8D5A3" text-anchor="middle">Platsen är fortfarande ledig.</text>
+                <text x="260" y="192" font-family="Arial,sans-serif" font-size="14" fill="rgba(255,255,255,.6)" text-anchor="middle">Boka ett kostnadsfritt 20-minuterssamtal</text>
+              </svg>
+            </div>
+            <div class="ad-image-caption">
+              <div><div class="ad-caption-url">solviora.se</div><div class="ad-caption-headline">Du tittade — platsen finns fortfarande</div><div class="ad-caption-sub">Boka ett kostnadsfritt samtal idag</div></div>
+              <div class="ad-cta-btn">Boka samtal</div>
+            </div>
+            <div class="ad-reactions"><span>👍 ❤️ 28 reaktioner</span><span>5 kommentarer</span></div>
+          </div>
+          <div class="info-box sage" style="margin-top:16px;max-width:340px;">
+            <p><strong>CTA skiljer sig från A och B:</strong> Retargetingannonsen skickar direkt till bokningsformuläret — inte tillbaka till landningssidan. De har redan sett hela pitchen. Nu vill vi bara att de tar nästa steg.</p>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin-top:0;">Varför retargeting är kritisk</h3>
+          <p style="font-size:14px;color:var(--text-mid);line-height:1.7;margin-bottom:20px;">75–85% av alla som klickar på en annons lämnar landningssidan utan att fylla i formuläret. De är intresserade nog att klicka — men inte redo att agera direkt. Retargeting fångar upp dessa och påminner dem, till en kostnad av 20–40% av vad det kostade att nå dem från scratch.</p>
+
+          <div class="info-box green" style="margin-bottom:24px;">
+            <p><strong>Varför det fungerar:</strong> Besökaren har redan sett erbjudandet. De behöver inte övertygnas om konceptet — de behöver bara en påminnelse och en enkel väg att ta nästa steg. Kortare annons, direktare CTA, lägre friktion.</p>
+          </div>
+
+          <h3>Målgruppsinställningar — alla tre annonser</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;">
+            <div class="card cream" style="padding:18px;">
+              <div class="card-label">Ålder</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--green);line-height:1;margin:8px 0;">45–65+</div>
+              <div style="font-size:13px;color:var(--text-mid);line-height:1.5;">Bred siktning för att maximera volym. Vi smalar av efter att vi sett vilken ålder som konverterar bäst.</div>
+            </div>
+            <div class="card cream" style="padding:18px;">
+              <div class="card-label">Plats</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--green);line-height:1;margin:8px 0;">Sverige</div>
+              <div style="font-size:13px;color:var(--text-mid);line-height:1.5;">Hela Sverige i testfasen. Stockholm har högst koncentration av målgruppen — vi diskuterar om vi ska vikta mot Stockholm specifikt.</div>
+            </div>
+            <div class="card cream" style="padding:18px;">
+              <div class="card-label">Intressen att rikta mot</div>
+              <div style="font-size:13px;color:var(--text-mid);line-height:1.6;margin-top:6px;">Hemnet · Pensionssparande · Semesterhus utomlands · Resor till Sydeuropa · Golf · Båt · Fastighetsinvestering</div>
+            </div>
+            <div class="card cream" style="padding:18px;">
+              <div class="card-label">Exkludera</div>
+              <div style="font-size:13px;color:var(--text-mid);line-height:1.6;margin-top:6px;">Studenter · Aktivt jobbsökande · Låg inkomstindikator · De som redan fyllt i formuläret (befintliga leads)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GOOGLE ADS ═══ -->
+<section class="slide" id="ads-google" style="background:var(--cream);">
+  <div class="slide-inner">
+    <p class="slide-num">04 — Google Search-annonser</p>
+    <h2 class="slide-title">Fånga den som <em>aktivt söker</em></h2>
+    <p class="slide-sub">Google Search träffar en annan typ av besökare — en som redan har bestämt sig för att researcha. Lägre volym men högre intention och kortare väg till beslut.</p>
+
+    <div class="two-col" style="align-items:start;gap:48px;">
+      <div>
+        <h3>Sökkampanj 1 — Fastighet</h3>
+        <div class="google-ad">
+          <div class="ga-ad-label">Ann.</div>
+          <div class="ga-url">solviora.se › fastighetsresa-bulgarien</div>
+          <div class="ga-title">Guidad Fastighetsresa Bulgarien | Allt Inkluderat</div>
+          <div class="ga-desc">Se utvalda fastigheter på plats i 4 dagar. Flyg, boende och måltider ingår. Litet sällskap — max 10 pers. EU-land med full äganderätt för svenska medborgare.</div>
+          <div class="ga-sitelinks">
+            <span class="ga-sitelink">Vad ingår</span>
+            <span class="ga-sitelink">Boka samtal</span>
+            <span class="ga-sitelink">Varför Bulgarien</span>
+          </div>
+        </div>
+        <div style="margin-top:16px;">
+          <p style="font-size:13px;font-weight:600;color:var(--green);margin-bottom:8px;">Nyckelord:</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span class="badge badge-green">köpa hus Bulgarien</span>
+            <span class="badge badge-green">fastighet Bulgarien svensk</span>
+            <span class="badge badge-amber">semesterhus Bulgarien</span>
+            <span class="badge badge-amber">investera fastighet EU</span>
+            <span class="badge badge-blue">svarta havet fastighet</span>
+            <span class="badge badge-blue">köpa fastighet utomlands</span>
+          </div>
+          <p style="font-size:11px;color:var(--text-light);margin-top:6px;">Grönt = exakt match. Gult = bred match. Blått = longtail.</p>
+        </div>
+      </div>
+      <div>
+        <h3>Sökkampanj 2 — Livsstil</h3>
+        <div class="google-ad">
+          <div class="ga-ad-label">Ann.</div>
+          <div class="ga-url">solviora.se › leva-utomlands</div>
+          <div class="ga-title">Drömmer Du Om Liv I Solen? | Solviora</div>
+          <div class="ga-desc">Vi visar dig vad 300 000 kr köper i Bulgarien — EU-land 20 min från Svarta havet. Guidad resa för utvalda svenska köpare. Inga förpliktelser.</div>
+          <div class="ga-sitelinks">
+            <span class="ga-sitelink">Se itinerarien</span>
+            <span class="ga-sitelink">Kostnadsfritt samtal</span>
+          </div>
+        </div>
+        <div class="info-box gold" style="margin-top:16px;">
+          <p><strong>Facebook vs Google:</strong> Facebook-annonser avbryter — de dyker upp i flödet. Google Search träffar en person som aktivt söker. Kombinationen är stark: Facebook skapar kännedom, Google konverterar de som redan är i research-läge. Budget: 70% Facebook, 30% Google i testfasen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SETUP ═══ -->
+<section class="slide" id="setup">
+  <div class="slide-inner">
+    <p class="slide-num">05 — Setup</p>
+    <h2 class="slide-title">Allt som måste vara på plats <em>innan annonserna går live</em></h2>
+    <p class="slide-sub">Komplett checklista — konton, verktyg och konfigurationer som bygger hela den tekniska infrastrukturen.</p>
+
+    <div class="two-col" style="align-items:start;">
+      <div>
+        <h3>Facebook & Instagram</h3>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:#e8f0fb;">📱</div>
+          <div class="setup-text">
+            <div class="setup-title">Meta Business Manager</div>
+            <div class="setup-body">Gratis. Skapa ett Business Account för Solviora — separerat från privata konton. All annonsering körs härifrån med full insyn för båda parter.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:#e8f0fb;">📊</div>
+          <div class="setup-text">
+            <div class="setup-title">Meta Pixel — installeras dag ett</div>
+            <div class="setup-body">Skapas i Business Manager → Events Manager. Läggs in på landningssidan. Kritiskt att installera direkt — varje besökare som anländer innan pixeln är live är förlorad retargeting-data.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:#e8f0fb;">💳</div>
+          <div class="setup-text">
+            <div class="setup-title">Annonseringskonto med betalmetod</div>
+            <div class="setup-body">Skapas i Business Manager. Annonsbudgeten betalas direkt till Meta — full transparens och kontroll. En daglig utgiftsgräns sätts som skydd under testfasen.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:#e8f0fb;">📄</div>
+          <div class="setup-text">
+            <div class="setup-title">Facebook-sida för Solviora</div>
+            <div class="setup-body">Krävs för att köra annonser. Profilbild, omslagsbild och ett första inlägg publiceras innan annonserna går live — en tom sida signalerar att varumärket inte är etablerat.</div>
+          </div>
+        </div>
+
+        <h3>Google Ads</h3>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:#fef3cd;">🔍</div>
+          <div class="setup-text">
+            <div class="setup-title">Google Ads-konto i Expert mode</div>
+            <div class="setup-body">ads.google.com — välj Expert mode för full kontroll. Betalmetoden läggs in direkt i kontot.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:#fef3cd;">🏷️</div>
+          <div class="setup-text">
+            <div class="setup-title">Google Tag — konverteringsspårning</div>
+            <div class="setup-body">Spårar när någon fyller i formuläret. Kritiskt för att veta vilka annonser som faktiskt genererar leads — inte bara klick.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Möten & kommunikation</h3>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:#e6f4ea;">📅</div>
+          <div class="setup-text">
+            <div class="setup-title">Calendly — bokningssystem</div>
+            <div class="setup-body">Gratis. Event: "Kostnadsfritt samtal — 20 min." Kopplat till en gemensam kalender. Skickar automatiska påminnelser till leads och minskar no-shows.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:#e6f4ea;">🎥</div>
+          <div class="setup-text">
+            <div class="setup-title">Videomöten — Google Meet</div>
+            <div class="setup-body">Gratis. Enklast för svenska kunder i 45–65-årsåldern som troligen använder Gmail. Länken genereras automatiskt via Calendly.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:#e6f4ea;">📞</div>
+          <div class="setup-text">
+            <div class="setup-title">Svensk telefonnummer (070-)</div>
+            <div class="setup-body">Synlig på landningssidan. Bygger förtroende — en aktör utan synligt nummer signalerar bristande seriositet till svenska konsumenter.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:#fde8e8;">💰</div>
+          <div class="setup-text">
+            <div class="setup-title">Stripe — betalningslänk 19 000 kr</div>
+            <div class="setup-body">En betalningslänk skapas för resans pris och skickas manuellt efter ett möte som konverterar. Inga tekniska integrationer behövs i denna fas. Avgift: ~1,4% + 1,80 kr per transaktion.</div>
+          </div>
+        </div>
+        <div class="setup-item">
+          <div class="setup-icon" style="background:#fde8e8;">📋</div>
+          <div class="setup-text">
+            <div class="setup-title">Lead-tracker i Google Sheets</div>
+            <div class="setup-body">Namn · E-post · Telefon · Källa (FB/Google) · Datum · Mötesdatum · Status (bokat / genomfört / betalat). Uppdateras löpande och delas med hela teamet.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COSTS ═══ -->
+<section class="slide" id="costs" style="background:var(--cream);">
+  <div class="slide-inner">
+    <p class="slide-num">06 — Budget & kostnader</p>
+    <h2 class="slide-title">Tre scenarier — <em>välj nivå</em></h2>
+    <p class="slide-sub">Fast teknisk kostnad: 0 kr per månad. Det enda som kostar är annonsbudgeten — som betalas direkt till Meta och Google.</p>
+
+    <div class="three-col" style="margin-bottom:36px;">
+      <div class="card cream" style="border-top:3px solid var(--sage);">
+        <div class="card-label">Plan A — Lean test</div>
+        <div class="card-value">3 500 kr</div>
+        <div class="card-body" style="margin-bottom:12px;">per vecka (500 kr/dag)</div>
+        <ul><li>4 veckors test</li><li>Totalt: ~16 000 kr</li><li>Lär oss om annonsen fungerar</li><li>Lägsta möjliga riskexponering</li></ul>
+      </div>
+      <div class="card" style="border-top:3px solid var(--gold);box-shadow:0 4px 20px rgba(0,0,0,.08);">
+        <div class="card-label gold">Plan B — Rekommenderad start</div>
+        <div class="card-value">6 000–7 500 kr</div>
+        <div class="card-body" style="margin-bottom:12px;">per vecka (850–1 000 kr/dag)</div>
+        <ul><li>4 veckors test</li><li>Totalt: ~28 000–32 000 kr</li><li>Statistiskt meningsfull A/B-data</li><li>Tillräcklig volym för att optimera</li></ul>
+      </div>
+      <div class="card cream" style="border-top:3px solid var(--green);">
+        <div class="card-label">Plan C — Skalning</div>
+        <div class="card-value">14 000+ kr</div>
+        <div class="card-body" style="margin-bottom:12px;">per vecka (2 000+ kr/dag)</div>
+        <ul><li>8+ veckors körning</li><li>Starta EJ här</li><li>Skala in i detta när vi vet vad som fungerar</li></ul>
+      </div>
+    </div>
+
+    <h3>Fullständig kostnadsspecifikation — Plan B</h3>
+    <table class="cost-table">
+      <tr><th>Post</th><th>Kostnad</th><th>Frekvens</th><th>Notering</th></tr>
+      <tr class="section-header"><td colspan="4">Annonsbudget</td></tr>
+      <tr><td>Facebook & Instagram-annonser</td><td>4 500–5 500 kr</td><td>Per vecka</td><td>70% av total annonsbudget. Betalas direkt till Meta.</td></tr>
+      <tr><td>Google Search-annonser</td><td>1 000–1 500 kr</td><td>Per vecka</td><td>30% av total. Aktiveras vecka 2–3. Betalas direkt till Google.</td></tr>
+      <tr class="section-header"><td colspan="4">Teknisk infrastruktur</td></tr>
+      <tr><td>Landningssida (GitHub Pages)</td><td>0 kr</td><td>–</td><td>Gratis hosting. Redan live.</td></tr>
+      <tr><td>Meta Business Manager</td><td>0 kr</td><td>–</td><td>Gratis.</td></tr>
+      <tr><td>Google Ads-konto</td><td>0 kr</td><td>–</td><td>Gratis — betalar bara för faktiska klick.</td></tr>
+      <tr><td>Calendly bokningssystem</td><td>0 kr</td><td>–</td><td>Gratis på fri plan.</td></tr>
+      <tr><td>Google Meet (videomöten)</td><td>0 kr</td><td>–</td><td>Gratis.</td></tr>
+      <tr><td>Stripe-avgift per bokning</td><td>~270 kr</td><td>Per transaktion</td><td>1,4% + 1,80 kr av 19 000 kr. Dras vid betalning.</td></tr>
+      <tr><td>Domännamn (solviora.se)</td><td>~150 kr</td><td>Per år</td><td>Valfritt för MVP — GitHub-URL funkar för testfasen.</td></tr>
+      <tr class="total"><td colspan="2">Fast kostnad per månad (exkl. annonsbudget)</td><td colspan="2" style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--green);">0 kr</td></tr>
+    </table>
+
+    <div class="info-box gold" style="margin-top:20px;">
+      <p><strong>Om leads och realism:</strong> Online-annonsering är idag mer konkurrensutsatt än någonsin — fler aktörer, högre priser per klick och kortare uppmärksamhetsspann. Det är därför vi testar med lägre budget först, mäter vad som fungerar, och skalar det som ger resultat. Att förvänta sig 80 leads på 4 veckor är ett mål — inte en garanti. Se riskscenariet nedan.</p>
+    </div>
+
+    <div class="info-box red" style="margin-top:8px;">
+      <p><strong>Riskscenario — om leads uteblir:</strong> Möjliga orsaker: annonsen träffar fel målgrupp, bilden stoppar inte scrollandet, landningssidan konverterar inte, erbjudandet är för okänt för marknaden. Åtgärder: byt kreativt (dag 1), justera målgrupp (vecka 2), testa ny vinkel (vecka 3), lägg till organisk approach och LinkedIn (vecka 4+). Inga leads efter 3 veckor = vi stoppar, analyserar och pivoterar innan mer budget läggs in.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MATH ═══ -->
+<section class="slide" id="math" style="background:var(--green);">
+  <div class="slide-inner">
+    <p class="slide-num" style="color:var(--gold);">07 — Kalkyl</p>
+    <h2 class="slide-title" style="color:#fff;">Vad det kostar att <em>fylla en resa</em></h2>
+    <p class="slide-sub" style="color:rgba(255,255,255,.65);">Hur siffrorna hänger ihop — från annonsklick till betald plats.</p>
+
+    <div class="two-col" style="align-items:start;gap:48px;">
+      <div>
+        <h3 style="color:var(--gold-light);">Hur kalkylen fungerar — steg för steg</h3>
+        <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:20px;margin-bottom:16px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.7;">
+          <p style="margin-bottom:10px;"><strong style="color:#fff;">Klick:</strong> En person ser annonsen och klickar sig till landningssidan. Vi betalar per klick oavsett vad de gör sen. Vi räknar med <strong style="color:var(--gold-light);">6 kr per klick</strong> — ett konservativt snitt för denna målgrupp i Sverige. (Att räkna per klick är rätt metod — det är vad vi faktiskt betalar. Alternativet är att räkna per visning och anta klickfrekvens, men det lägger till ett extra steg med osäkerhet.)</p>
+          <p style="margin-bottom:10px;"><strong style="color:#fff;">Lead:</strong> Av alla som klickar fyller <strong style="color:var(--gold-light);">15%</strong> i formuläret — det lägre spannet av målet 15–25%. Det är en lead: någon som aktivt räcker upp handen och säger "jag är intresserad."</p>
+          <p style="margin-bottom:10px;"><strong style="color:#fff;">Möte:</strong> Av leads bokar <strong style="color:var(--gold-light);">30%</strong> ett möte — det lägre spannet av målet 30–40%.</p>
+          <p><strong style="color:#fff;">Bokning:</strong> Av möten konverterar <strong style="color:var(--gold-light);">25%</strong> till en betald plats — det lägre spannet av målet 25–35%.</p>
+        </div>
+
+        <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:20px;">
+          <div style="font-size:11px;font-weight:600;color:var(--sage);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;">Konservativt scenario — lägre spannet av alla mål</div>
+          <div class="math-row" style="border-color:rgba(255,255,255,.12);">
+            <div class="math-label" style="color:rgba(255,255,255,.7);">Kostnad per klick (Facebook)</div>
+            <div class="math-val" style="color:#fff;">6 kr</div>
+          </div>
+          <div class="math-row" style="border-color:rgba(255,255,255,.12);">
+            <div class="math-label" style="color:rgba(255,255,255,.7);">Klick → lead (fyller i formulär)</div>
+            <div class="math-val" style="color:#fff;">15%</div>
+          </div>
+          <div class="math-row" style="border-color:rgba(255,255,255,.12);">
+            <div class="math-label" style="color:rgba(255,255,255,.7);">Lead → bokar möte</div>
+            <div class="math-val" style="color:#fff;">30%</div>
+          </div>
+          <div class="math-row" style="border-color:rgba(255,255,255,.12);">
+            <div class="math-label" style="color:rgba(255,255,255,.7);">Möte → betald plats</div>
+            <div class="math-val" style="color:#fff;">25%</div>
+          </div>
+          <div class="math-row" style="border-color:rgba(255,255,255,.12);">
+            <div class="math-label" style="color:rgba(255,255,255,.7);">Klick per bokning (1 ÷ 0,15 × 0,30 × 0,25)</div>
+            <div class="math-val" style="color:var(--gold-light);">~89 klick</div>
+          </div>
+          <div class="math-row" style="border-top:1px solid var(--gold);border-bottom:none;padding-top:12px;">
+            <div class="math-label" style="color:var(--gold-light);font-weight:600;">Annonsskostnad per bokad plats</div>
+            <div class="math-val" style="color:var(--gold-light);font-size:22px;">534 kr</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:8px;">89 klick × 6 kr = 534 kr</div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="color:var(--gold-light);">En full resa — 8 platser</h3>
+        <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:20px;margin-bottom:20px;">
+          <div class="math-row" style="border-color:rgba(255,255,255,.12);">
+            <div class="math-label" style="color:rgba(255,255,255,.7);">Platser per resa</div>
+            <div class="math-val" style="color:#fff;">8 st</div>
+          </div>
+          <div class="math-row" style="border-color:rgba(255,255,255,.12);">
+            <div class="math-label" style="color:rgba(255,255,255,.7);">Klick som behövs (8 × 89)</div>
+            <div class="math-val" style="color:#fff;">~712 klick</div>
+          </div>
+          <div class="math-row" style="border-color:rgba(255,255,255,.12);">
+            <div class="math-label" style="color:rgba(255,255,255,.7);">Total annonsskostnad (712 × 6 kr)</div>
+            <div class="math-val" style="color:#fff;">4 272 kr</div>
+          </div>
+          <div class="math-row" style="border-color:rgba(255,255,255,.12);">
+            <div class="math-label" style="color:rgba(255,255,255,.7);">Total resintäkt (8 × 19 000 kr)</div>
+            <div class="math-val" style="color:#fff;">152 000 kr</div>
+          </div>
+          <div class="math-row" style="border-color:rgba(255,255,255,.12);">
+            <div class="math-label" style="color:rgba(255,255,255,.7);">Marknadsförarens ersättning (8 × 3 500 kr)</div>
+            <div class="math-val" style="color:rgba(255,255,255,.7);">− 28 000 kr</div>
+          </div>
+          <div class="math-row" style="border-color:rgba(255,255,255,.12);">
+            <div class="math-label" style="color:rgba(255,255,255,.7);">Annonsskostnad</div>
+            <div class="math-val" style="color:rgba(255,255,255,.7);">− 4 272 kr</div>
+          </div>
+          <div class="math-row" style="border-top:1px solid var(--gold);border-bottom:none;padding-top:12px;">
+            <div class="math-label" style="color:var(--gold-light);font-weight:600;">Kvar till projektet (exkl. resekostnad)</div>
+            <div class="math-val" style="color:var(--gold-light);font-size:22px;">119 728 kr</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:6px;">152 000 − 28 000 − 4 272 = 119 728 kr</div>
+        </div>
+
+        <h3 style="color:var(--gold-light);">Break-even — hur mycket kan vi spendera?</h3>
+        <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:20px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.65;">
+          <p style="margin-bottom:14px;">Break-even handlar inte om att jämföra med annonsbudgeten — det handlar om att förstå <strong style="color:#fff;">det maximala vi kan spendera på annonser per bokning och ändå gå runt.</strong></p>
+          <div style="background:rgba(255,255,255,.06);border-radius:6px;padding:14px;margin-bottom:14px;font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold-light);text-align:center;line-height:1.8;">
+            19 000 − 3 500 − resekostnad/person − annonskostad/bokning = marginal
+          </div>
+          <p style="margin-bottom:10px;">Break-even uppnås när marginalen = 0, alltså:</p>
+          <div style="background:rgba(255,255,255,.08);border-radius:6px;padding:14px;margin-bottom:14px;font-family:'Cormorant Garamond',serif;font-size:16px;color:#fff;text-align:center;">
+            Max annonsskostnad/bokning = 19 000 − 3 500 − resekostnad/person
+          </div>
+          <p style="margin-bottom:10px;"><strong style="color:#fff;">Exempel:</strong> Om resekostnaden är 10 000 kr per person:</p>
+          <div style="background:rgba(201,168,76,.12);border-radius:6px;padding:14px;margin-bottom:10px;">
+            <div class="math-row" style="border-color:rgba(255,255,255,.1);">
+              <div class="math-label" style="color:rgba(255,255,255,.7);">Resepris</div><div class="math-val" style="color:#fff;">19 000 kr</div>
+            </div>
+            <div class="math-row" style="border-color:rgba(255,255,255,.1);">
+              <div class="math-label" style="color:rgba(255,255,255,.7);">− Marknadsförarens ersättning</div><div class="math-val" style="color:rgba(255,255,255,.7);">− 3 500 kr</div>
+            </div>
+            <div class="math-row" style="border-color:rgba(255,255,255,.1);">
+              <div class="math-label" style="color:rgba(255,255,255,.7);">− Resekostnad per person (exempel)</div><div class="math-val" style="color:rgba(255,255,255,.7);">− 10 000 kr</div>
+            </div>
+            <div class="math-row" style="border-top:1px solid var(--gold);border-bottom:none;padding-top:10px;">
+              <div class="math-label" style="color:var(--gold-light);font-weight:600;">Max annonsskostnad per bokning</div><div class="math-val" style="color:var(--gold-light);font-size:18px;">5 500 kr</div>
+            </div>
+          </div>
+          <p>Vår faktiska annonsskostnad i det konservativa scenariot är <strong style="color:var(--gold-light);">534 kr per bokning</strong> — långt under 5 500 kr. Det ger god marginal. <strong style="color:#fff;">Nyckeln är att ta reda på den faktiska resekostnaden per person</strong> — det är den variabeln som avgör hur lönsamt projektet är.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ERSÄTTNING ═══ -->
+<section class="slide" id="ersattning">
+  <div class="slide-inner">
+    <p class="slide-num">08 — Ersättning & partnerskap</p>
+    <h2 class="slide-title">Hur vi delar på det vi <em>skapar tillsammans</em></h2>
+    <p class="slide-sub">Ett upplägg där våra intressen är fullt alignade — jag tjänar pengar när projektet levererar, inte före.</p>
+
+    <div class="two-col" style="gap:24px;margin-bottom:32px;">
+      <div class="card" style="border-top:3px solid var(--gold);">
+        <div class="card-label gold">FAS 1 — Nu, under testperioden</div>
+        <div class="card-value" style="font-size:44px;margin:12px 0;">3 500 kr</div>
+        <div style="font-size:13px;color:var(--text-mid);margin-bottom:16px;">per bekräftad och betald plats på resan</div>
+        <ul>
+          <li>Betalas när Stripe-betalningen är bekräftad</li>
+          <li>Inget betalas om det inte levereras</li>
+          <li>En full resa (8 platser) = 28 000 kr till mig</li>
+          <li>Annonsbudget hanteras separat och direkt</li>
+          <li>Gäller under testperioden och första resan</li>
+        </ul>
+        <div class="info-box gold" style="margin-top:16px;">
+          <p>Det här upplägget existerar för att jag tror på projektet och väljer att aligna mina intressen med era — inte för att min tid är gratis. Min insats i fas 1 är marknadsföring, tech och tolkning. Er insats är annonskapital och fastighetsexpertis.</p>
+        </div>
+      </div>
+
+      <div class="card green">
+        <div class="card-label" style="color:var(--gold);">FAS 2 — Efter första lyckade resan</div>
+        <div class="card-value white" style="font-size:32px;margin:12px 0;line-height:1.2;">Andel av fastighetsaffärerna</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.65);margin-bottom:16px;">Förhandlas efter att vi sett hur resan fungerade</div>
+        <ul>
+          <li style="color:rgba(255,255,255,.75);">Gäller köpare som kom via vår funnel</li>
+          <li style="color:rgba(255,255,255,.75);">Procentandelen av transaktionsvärdet — förhandlas</li>
+          <li style="color:rgba(255,255,255,.75);">Ger mig incitament att optimera hela kedjan</li>
+          <li style="color:rgba(255,255,255,.75);">Gör att vi båda vinner när fastigheter säljs</li>
+        </ul>
+        <div class="info-box" style="background:rgba(255,255,255,.08);border-left:3px solid var(--gold);margin-top:16px;">
+          <p style="color:rgba(255,255,255,.75);">Vi noterar intentionen att förhandla fas 2 skriftligt redan nu — inte som ett bindande avtal utan som ett gemensamt åtagande att ha konversationen. Det skapar förtroende och långsiktighet från dag ett.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box green">
+      <p><strong>På avtal:</strong> Jag driver projektet via min enskilda firma och vill förbereda ett enkelt samarbetsavtal mellan oss. Det är inte ett tecken på misstro — tvärtom. Ett avtal ger oss båda klarhet i exakt vad vi vardera ansvarar för, hur ersättningen triggas, och hur vi hanterar eventuella förändringar. Det skyddar oss båda lika mycket. Jag tar hand om att skriva ett utkast som vi går igenom tillsammans.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ASSETS ═══ -->
+<section class="slide" id="assets" style="background:var(--cream);">
+  <div class="slide-inner">
+    <p class="slide-num">09 — Material vi behöver</p>
+    <h2 class="slide-title">Vad vi behöver för att <em>starta starkt</em></h2>
+    <p class="slide-sub">Äkta material från platsen konverterar alltid bättre än stockbilder. Ju mer vi har, desto starkare blir annonserna och landningssidan.</p>
+
+    <div class="two-col" style="align-items:start;">
+      <div>
+        <h3>Bilder & video — prioritetsordning</h3>
+        <div class="asset-row">
+          <div class="asset-priority"><span class="badge badge-red">Kritisk</span></div>
+          <div class="asset-content">
+            <div class="asset-title">Landskapsbilder — omgivningarna</div>
+            <div class="asset-body">Natur, kullar, utsikter runt fastigheterna. Inte fastigheterna i sig — omgivningarna. 5–10 bilder tagna med telefon i bra ljus (morgon eller kväll).</div>
+          </div>
+        </div>
+        <div class="asset-row">
+          <div class="asset-priority"><span class="badge badge-red">Kritisk</span></div>
+          <div class="asset-content">
+            <div class="asset-title">Bilder från Varna & Svarta havet</div>
+            <div class="asset-body">Kusten, stranden, promenader i Varna centrum. Autentiska bilder tagna på plats är alltid starkare än stockfoton för att bygga förtroende.</div>
+          </div>
+        </div>
+        <div class="asset-row">
+          <div class="asset-priority"><span class="badge badge-amber">Viktig</span></div>
+          <div class="asset-content">
+            <div class="asset-title">Bilder av fastigheterna & byggprogress</div>
+            <div class="asset-body">Inte primärt för annonser — men för landningssidan och för att visa på samtalet. "Här är vad som byggs." Arkitektritningar eller renders om de finns.</div>
+          </div>
+        </div>
+        <div class="asset-row">
+          <div class="asset-priority"><span class="badge badge-amber">Viktig</span></div>
+          <div class="asset-content">
+            <div class="asset-title">Bilder av byarna</div>
+            <div class="asset-body">Kullerstensgator, lokala restauranger, marknader, traditionell arkitektur. Skapar kulturell attraktion och visar att livet runt fastigheten är vackert.</div>
+          </div>
+        </div>
+        <div class="asset-row">
+          <div class="asset-priority"><span class="badge badge-blue">Bra att ha</span></div>
+          <div class="asset-content">
+            <div class="asset-title">Video — 30–60 sekunder från platsen</div>
+            <div class="asset-body">En promenad genom byn, utsikten, havet. Video är det starkast konverterande annonsformatet på Facebook — men kan vänta till fas 2 om det inte finns nu.</div>
+          </div>
+        </div>
+        <div class="asset-row">
+          <div class="asset-priority"><span class="badge badge-blue">Bra att ha</span></div>
+          <div class="asset-content">
+            <div class="asset-title">Foton på färdigbyggda referensprojekt</div>
+            <div class="asset-body">Har teamet eller projektledare levererat ett liknande projekt tidigare? Ett foto av ett färdigt hus är det starkaste möjliga beviset för att off-plan-konceptet fungerar.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Information som behövs</h3>
+        <div class="asset-row">
+          <div class="asset-priority"><span class="badge badge-red">Kritisk</span></div>
+          <div class="asset-content">
+            <div class="asset-title">Exakta datum för nästa resa + broschyr/bok</div>
+            <div class="asset-body">"Nästa resa avgår [datum]" är hundratals gånger starkare än "snart." Vi behöver datum för resan, och en tidplan för när broschyren med alla fastigheter är klar — den är ett säljverktyg vi behöver så snart som möjligt.</div>
+          </div>
+        </div>
+        <div class="asset-row">
+          <div class="asset-priority"><span class="badge badge-red">Kritisk</span></div>
+          <div class="asset-content">
+            <div class="asset-title">Exakt antal platser tillgängliga</div>
+            <div class="asset-body">"Vi har 4 platser kvar" stänger affärer. Scarcity är ett av de mest kraftfulla konverteringsverktygen — men den måste vara sann.</div>
+          </div>
+        </div>
+        <div class="asset-row">
+          <div class="asset-priority"><span class="badge badge-amber">Viktig</span></div>
+          <div class="asset-content">
+            <div class="asset-title">Detaljerad plan över alla fastigheter</div>
+            <div class="asset-body">Typ, storlek, ungefärligt pris, status (byggfas), och beräknat färdigdatum per fastighet. Underlaget för broschyren och för vad vi berättar på kundmötena.</div>
+          </div>
+        </div>
+        <div class="asset-row">
+          <div class="asset-priority"><span class="badge badge-amber">Viktig</span></div>
+          <div class="asset-content">
+            <div class="asset-title">Alla aktörer — hotell, restauranger, flygbolag</div>
+            <div class="asset-body">Vilka partners är inblandade i resan? Har vi förhandlat priser? Eftersom vi kommer att vara återkommande kunder med grupper bör vi diskutera volymrabatter med hotell, lokala restauranger och flygbolag — det sänker kostnaden per resa och ökar marginalen.</div>
+          </div>
+        </div>
+        <div class="asset-row">
+          <div class="asset-priority"><span class="badge badge-amber">Viktig</span></div>
+          <div class="asset-content">
+            <div class="asset-title">Vem håller i kundmötena & teamet</div>
+            <div class="asset-body">Namn, roll och kort bakgrund på varje person i teamet som träffar kunderna. Vem presenterar fastigheterna? Vem svarar på juridiska frågor? Vem håller i säljsamtalet? Svenska kunder frågar "vem träffar vi?"</div>
+          </div>
+        </div>
+        <div class="asset-row">
+          <div class="asset-priority"><span class="badge badge-blue">Bra att ha</span></div>
+          <div class="asset-content">
+            <div class="asset-title">Uthyrningspotential — konkreta indikatorer</div>
+            <div class="asset-body">Kan köpare hyra ut via Airbnb eller lokala kanaler? Vad är ett realistiskt sommarscenario? Bevis kan vara: skärmdumpar av liknande fastigheter på Airbnb i området med priser, beläggningsgrad för Varnaregionen på booking.com, eller kontakt med ett lokalt förvaltningsbolag som kan ge siffror.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TIMELINE ═══ -->
+<section class="slide" id="timeline">
+  <div class="slide-inner">
+    <p class="slide-num">10 — Tidslinje</p>
+    <h2 class="slide-title">Från <em>idag</em> till första bokade resa</h2>
+    <p class="slide-sub">Realistisk tidslinje baserad på ca 8–10 timmars arbete per vecka från min sida, parallellt med övrig verksamhet.</p>
+
+    <div class="two-col" style="align-items:start;gap:64px;">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-week">Vecka 1–2</div>
+          <div class="tl-title">Setup & kontostruktur</div>
+          <div class="tl-body">Skapa Meta Business Manager, Facebook-sida, Google Ads-konto, Calendly och Stripe. Meta Pixel och Google Tag installeras på landningssidan dag ett. Betalmetod läggs in direkt i annonskontona.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-week">Vecka 2–3</div>
+          <div class="tl-title">Annonsproduktion & granskning</div>
+          <div class="tl-body">Producera Annons A och B. Skriva copy, välja bilder, designa i Canva. Vi går igenom annonserna tillsammans innan de publiceras — ni godkänner allt som går live under Solvioras namn. Performance-avtalet signeras.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-week">Vecka 3–4</div>
+          <div class="tl-title">Annonserna går live</div>
+          <div class="tl-body">Annons A och B aktiveras på Facebook/Instagram. Google Search-kampanj aktiveras. Pixel börjar samla data. Löpande uppföljning av CTR, kostnad per klick och kostnad per lead varje dag.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-week">Vecka 4–6</div>
+          <div class="tl-title">Första leads & möten</div>
+          <div class="tl-body">Leads börjar fylla i formuläret. Vi bokar in dem på möten. Jag deltar som tolk — ni håller i presentationen. Varje möte dokumenteras: vad frågade de, vad tvekade de på, vad fick dem att boka.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-week">Vecka 5–8</div>
+          <div class="tl-title">A/B-analys & optimering</div>
+          <div class="tl-body">Stäng den sämre annonsen och skala den bättre. Aktivera retargetingannons. Justera landningssidan baserat på vad leads frågar på mötena. Sikta på att fylla resan.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--green);"></div>
+          <div class="tl-week">Vecka 8–12</div>
+          <div class="tl-title">Första resan går av stapeln</div>
+          <div class="tl-body">Resan genomförs. Jag samlar feedback från deltagarna. Fas 2-förhandling inleds — ersättning på fastighetsaffärer diskuteras baserat på vad vi sett fungerar.</div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Nyckeltal att följa varje vecka</h3>
+        <table class="cost-table">
+          <tr><th>Mått</th><th>Mål</th><th>Om sämre</th></tr>
+          <tr><td>CTR på annons</td><td>2–4%</td><td>Byt bild eller headline</td></tr>
+          <tr><td>Kostnad per klick</td><td>Under 10 kr</td><td>Justera målgrupp</td></tr>
+          <tr><td>Formulärkonvertering</td><td>15–25%</td><td>Förenkla formuläret</td></tr>
+          <tr><td>Kostnad per lead</td><td>Under 80 kr</td><td>Optimera annons</td></tr>
+          <tr><td>Möteskonvertering</td><td>25–35%</td><td>Förfina samtalsmanus</td></tr>
+        </table>
+
+        <div class="info-box green" style="margin-top:20px;">
+          <p><strong>Viktigaste insikten:</strong> Kostnad per lead är inte det enda måttet. En lead som kostar 80 kr men bokar resan är mer värd än tio leads à 20 kr som aldrig svarar. Vi optimerar alltid mot kostnad per bekräftad reseplats — inte mot kostnad per klick.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PLAN B ═══ -->
+<section class="slide" id="planb" style="background:var(--cream);">
+  <div class="slide-inner">
+    <p class="slide-num">11 — Plan B, C & D</p>
+    <h2 class="slide-title">Om kampanjen inte levererar — <em>vad gör vi då?</em></h2>
+    <p class="slide-sub">Ingen första kampanj är perfekt. Det är därför vi testar, mäter och byter riktning snabbt. Varje pivot triggas av ett specifikt mätvärde — vi reagerar på data, inte magkänsla.</p>
+
+    <div class="two-col" style="align-items:start;gap:24px;margin-bottom:32px;">
+      <div>
+        <div class="card" style="border-top:3px solid var(--gold);margin-bottom:16px;">
+          <div class="card-label gold">Plan B — Byt annonskreativ</div>
+          <div class="card-title" style="margin-bottom:8px;">Trigger: CTR under 1,5% efter 10 dagars körning</div>
+          <div class="card-body">Annonsen stoppar inte scrollandet. Vi byter bild och headline — priskontrast ersätts med ren livsstil eller tvärtom. Vi testar också ett kort video-format: 15 sekunder bulgarienfootage med text-overlay. Video har generellt 2–3× högre engagement än statiska bilder för denna målgrupp.</div>
+        </div>
+        <div class="card cream" style="border-top:3px solid var(--sage);margin-bottom:16px;">
+          <div class="card-label">Plan C — Byt målgrupp</div>
+          <div class="card-title" style="margin-bottom:8px;">Trigger: kostnad per lead över 200 kr efter 3 veckor</div>
+          <div class="card-body">Annonsen fungerar men träffar fel person. Vi testar: (1) Byt intressekategorier — från fastighet/pension till utlandsresor/livsstil. (2) Testa Lookalike Audience baserat på de som redan fyllt i formuläret — Meta hittar liknande profiler när vi har 20+ leads.</div>
+        </div>
+      </div>
+      <div>
+        <div class="card cream" style="border-top:3px solid var(--blue);margin-bottom:16px;">
+          <div class="card-label" style="color:var(--blue);">Plan D — Byt kanal till LinkedIn</div>
+          <div class="card-title" style="margin-bottom:8px;">Trigger: under 5 leads per vecka efter 5 veckors körning</div>
+          <div class="card-body">Vi pivoterar till LinkedIn Ads. Dyrare per klick (40–80 kr vs 6 kr på Facebook) men träffar svenska företagare och chefer 45–60 som tänker i investeringar och har kapital. Budget behöver justeras upp för meningsfull data.</div>
+        </div>
+        <div class="card green">
+          <div class="card-label" style="color:var(--gold);">Plan E — Organisk & direkt approach</div>
+          <div class="card-title white" style="margin-bottom:8px;">Körs parallellt med betalda annonser från dag 1</div>
+          <div class="card-body white">Instagram-konto för Solviora: 3–4 inlägg per vecka med bulgarienfootage och marknadsdata. Kostar 0 kr. Dessutom: inlägg i svenska Facebook-grupper för utlandsboende, fastighetsintresse och pensionering. Ett inlägg i rätt grupp kan ge 20–30 leads utan annonsbudget.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Beslutsträdet</h3>
+    <div style="background:#fff;border-radius:8px;padding:20px;font-size:13px;border:1px solid var(--border);">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;text-align:center;">
+        <div style="padding:16px;border-right:1px solid var(--border);">
+          <div style="font-weight:600;color:var(--green);margin-bottom:10px;">Vecka 1–3</div>
+          <div style="color:var(--text-mid);margin-bottom:6px;">CTR under 1,5%?<br><span style="color:var(--red);font-weight:500;">→ Byt kreativt (Plan B)</span></div>
+          <div style="color:var(--text-mid);">Lead-kostnad över 200 kr?<br><span style="color:var(--amber);font-weight:500;">→ Justera målgrupp (Plan C)</span></div>
+        </div>
+        <div style="padding:16px;border-right:1px solid var(--border);">
+          <div style="font-weight:600;color:var(--green);margin-bottom:10px;">Vecka 4–6</div>
+          <div style="color:var(--text-mid);margin-bottom:6px;">Leads bokar inte möten?<br><span style="color:var(--amber);font-weight:500;">→ Förenkla formuläret, lägg till SMS-uppföljning</span></div>
+          <div style="color:var(--text-mid);">Möten konverterar inte?<br><span style="color:var(--amber);font-weight:500;">→ Förfina säljmanus</span></div>
+        </div>
+        <div style="padding:16px;">
+          <div style="font-weight:600;color:var(--green);margin-bottom:10px;">Vecka 7+</div>
+          <div style="color:var(--text-mid);margin-bottom:6px;">Under 5 leads/vecka totalt?<br><span style="color:var(--blue);font-weight:500;">→ LinkedIn Ads (Plan D)</span></div>
+          <div style="color:var(--text-mid);">Allt fungerar?<br><span style="color:#1e7e34;font-weight:500;">→ Skala budgeten</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUESTIONS ═══ -->
+<section class="slide" id="questions">
+  <div class="slide-inner">
+    <p class="slide-num">12 — Frågor att besvara tillsammans</p>
+    <h2 class="slide-title">Vad vi behöver <em>klargöra</em></h2>
+    <p class="slide-sub">Varje fråga visas på svenska och bulgariska. Svaren behöver inte komma på en gång — men vi behöver dem innan annonserna går live.</p>
+
+    <!-- KRITISKA -->
+    <h3 style="color:var(--red);margin-bottom:16px;">🔴 Kritiska — måste besvaras innan vi startar</h3>
+    <div class="two-col" style="gap:32px;margin-bottom:48px;">
+      <div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:12px;">Svenska</div>
+
+        <div class="q-row">
+          <div class="q-sv">Vem äger de olika fastigheterna juridiskt idag?</div>
+          <div class="q-note">Är det ett registrerat bulgariskt bolag, privatpersoner, eller en kombination? Finns det lån, pantsättningar eller tvister kopplade till titlarna? Vi behöver katastralregisternummer för att kunna verifiera äganderätten.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Finns ett köpkontrakt för köparna — och var hamnar handpenningen?</div>
+          <div class="q-note">På vilket språk är kontraktet? Vad säger det om färdigställande och vad händer vid försening? Hålls handpenningen av en notarie, ett escrow-konto, eller går den direkt till bolaget?</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Vad är situationen med bygglov och tillstånd — och hur påverkar det processen framåt?</div>
+          <div class="q-note">Vi förstår att det funnits förseningar med tillståndsprocessen. Vad är exakt löst, vad återstår, och hur påverkar det tidslinjen? Finns det aktiva överklaganden eller pågående juridiska processer kopplade till fastigheterna?</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Vad återstår konkret för att färdigställa fastigheterna — vem bygger, och vad är tidslinjen?</div>
+          <div class="q-note">Vilka byggfaser är klara och vilka återstår? Vem är entreprenören? Finns ett signerat byggkontrakt med ett specifikt leveransdatum? Vad händer kontraktuellt om tidslinjen inte hålls?</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Vilka datum planeras för nästa resa — och vilka milstolpar måste ske dessförinnan?</div>
+          <div class="q-note">Vi behöver konkreta datum för att skapa trovärdighet och scarcity i marknadsföringen. Vi förstår också att en broschyr med fastigheterna planeras — när kan den vara klar, och hur påverkar den lanseringen?</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:12px;">Български</div>
+
+        <div class="q-row">
+          <div class="q-bg">Кой е законният собственик на различните имоти в момента?</div>
+          <div class="q-note" style="font-style:normal;">Регистрирано българско дружество, физически лица или комбинация? Има ли ипотеки, залози или спорове, свързани с имотите? Необходими са ни кадастрални номера за проверка.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Има ли изготвен договор за покупка за купувачите — и къде отива авансовото плащане?</div>
+          <div class="q-note" style="font-style:normal;">На какъв език е договорът? Какво казва за завършването и какво се случва при закъснение? Авансът държи ли се при нотариус, в ескроу сметка, или отива директно към дружеството?</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Какъв е статусът на строителните разрешения — и как влияе това на процеса напред?</div>
+          <div class="q-note" style="font-style:normal;">Разбираме, че е имало забавяния в разрешителния процес. Какво точно е разрешено, какво остава и как влияе на времевата рамка? Има ли активни жалби или текущи правни процедури, свързани с имотите?</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Какво конкретно остава за завършване на имотите — кой строи и каква е времевата рамка?</div>
+          <div class="q-note" style="font-style:normal;">Кои строителни фази са завършени и кои предстоят? Кой е изпълнителят? Има ли подписан строителен договор с конкретна дата на предаване? Какво се случва договорно при неспазване на сроковете?</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Кои дати се планират за следващото пътуване — и какви milestone трябва да се случат преди това?</div>
+          <div class="q-note" style="font-style:normal;">Необходими са ни конкретни дати, за да създадем достоверност и усещане за ограниченост в маркетинга. Разбираме също, че се планира брошура с имотите — кога може да е готова и как влияе на старта?</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIKTIGA -->
+    <h3 style="color:var(--amber);margin-bottom:16px;">🟡 Viktiga — för pitchen och kundmötena</h3>
+    <div class="two-col" style="gap:32px;margin-bottom:48px;">
+      <div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:12px;">Svenska</div>
+
+        <div class="q-row">
+          <div class="q-sv">Vad kostar fastigheterna — ungefärlig span per typ?</div>
+          <div class="q-note">Traditionellt byhus, nyproduktion — vad ingår i priset (mark, stomme, fullt färdigt)? Vi behöver en prisspan att referera till när kunder frågar på möten.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Vad kostar det att arrangera resan per person?</div>
+          <div class="q-note">Flyg, boende, mat, guide och transport i Bulgarien — ungefärlig total per deltagare. Behövs för att förstå marginalen och för att räkna break-even korrekt.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Ska vi rikta oss mot hela Sverige eller primärt Stockholm?</div>
+          <div class="q-note">Påverkar annonstargeting direkt. Stockholm har den tätaste koncentrationen av vår målgrupp med rätt köpkraft — men om vi breddar når vi mer volym.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Vem i teamet håller i säljmötena med kunderna?</div>
+          <div class="q-note">Namn, roll och bakgrund på varje person som träffar kunderna. Vem presenterar fastigheterna? Vem svarar på juridiska frågor? Kunderna frågar alltid "vem träffar vi?"</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Detaljerat underlag för alla fastigheter som ska visas på resan</div>
+          <div class="q-note">Typ, storlek, antal rum, status, beräknat färdigdatum och pris per fastighet. Underlaget för broschyren och för vad vi kommunicerar på mötena.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Alla aktörer i resan — hotell, restauranger, flygbolag. Har vi diskuterat volymrabatter?</div>
+          <div class="q-note">Vi kommer att vara återkommande kunder med grupper. Det gör oss till en lojal volymkund — vi bör förhandla rabatter med hotell, restauranger och flygbolag för att sänka kostnaden per resa.</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:12px;">Български</div>
+
+        <div class="q-row">
+          <div class="q-bg">Каква е приблизителната ценова рамка за различните видове имоти?</div>
+          <div class="q-note" style="font-style:normal;">Традиционна селска къща, ново строителство — какво е включено в цената (земя, конструкция, напълно завършено)? Необходим ни е ценови диапазон за справка при срещи с клиенти.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Каква е реалната себестойност за организиране на пътуването на човек?</div>
+          <div class="q-note" style="font-style:normal;">Самолетни билети, настаняване, храна, водач и транспорт в България — приблизителна обща сума на участник. Необходимо е за разбиране на маржа и за правилно изчисляване на рентабилността.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Трябва ли да се насочим към цяла Швеция или основно към Стокхолм?</div>
+          <div class="q-note" style="font-style:normal;">Влияе директно върху таргетирането на рекламите. Стокхолм има най-голяма концентрация на нашата целева група с необходимата покупателна способност — но по-широкият обхват дава повече обем.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Кой от екипа ще води търговските срещи с клиентите?</div>
+          <div class="q-note" style="font-style:normal;">Имена, роли и кратко представяне на всеки човек, който среща клиентите. Кой представя имотите? Кой отговаря на правни въпроси? Клиентите винаги питат „кого ще срещнем?"</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Подробна информация за всички имоти, които ще бъдат показани по време на пътуването</div>
+          <div class="q-note" style="font-style:normal;">Тип, размер, брой стаи, статус, очаквана дата на завършване и цена за всеки имот. Основата за брошурата и за това, което комуникираме на срещите.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Всички партньори в пътуването — хотели, ресторанти, авиокомпании. Обсъждали ли сме групови отстъпки?</div>
+          <div class="q-note" style="font-style:normal;">Ще бъдем редовни клиенти с групи. Това ни прави лоялен клиент с обем — трябва да договорим отстъпки с хотели, ресторанти и авиокомпании, за да намалим себестойността на пътуването.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STRATEGISKA -->
+    <h3 style="color:var(--blue);margin-bottom:16px;">🔵 Strategiska — för oss som partners</h3>
+    <div class="two-col" style="gap:32px;margin-bottom:48px;">
+      <div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:12px;">Svenska</div>
+
+        <div class="q-row">
+          <div class="q-sv">Om dessa fastigheter är begränsade — finns det fler projekt på lång sikt?</div>
+          <div class="q-note">Vad är visionen om det fungerar? Finns det andra fastigheter som kan säljas på samma sätt till svenska köpare? Det avgör hur mycket vi investerar i att bygga varumärket Solviora.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Finns erfarenhet av att sälja fastigheter — till bulgarer eller utländska köpare?</div>
+          <div class="q-note">Behöver inte vara samma typ av projekt. Vilken erfarenhet finns i teamet av fastighetsförsäljning, förhandling och kontraktsskrivning? Påverkar hur vi sätter upp säljprocessen.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Finns färdigbyggda referensprojekt vi kan visa?</div>
+          <div class="q-note">Har teamet levererat ett liknande projekt tidigare? Foton av ett färdigt hus är det starkaste beviset för att off-plan-konceptet fungerar. Om inte — hur berättar vi trovärdigt om leveransförmågan?</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Vad är den realistiska uthyrningspotentialen — och vilka bevis kan vi visa?</div>
+          <div class="q-note">Kan köpare hyra ut via Airbnb eller lokala kanaler? Bevis kan vara: liknande fastigheter på Airbnb i området med priser och beläggning, kontakt med lokalt förvaltningsbolag, eller turistdata för Varnaregionen.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Kan vi rekommendera en oberoende lokal jurist till svenska köpare?</div>
+          <div class="q-note">En jurist som köparen anlitar självständigt stärker förtroendet enormt. "Vi rekommenderar att du pratar med en oberoende jurist" stänger fler affärer än det förlorar.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Vad vet vi om skattesituationen för svenska ägare i Bulgarien?</div>
+          <div class="q-note">Det finns ett skatteavtal mellan Sverige och Bulgarien. Hur beskattas hyresinkomster? Vad är de faktiska årliga ägarkostnaderna — fastighetsskatt, avgifter, el, vatten? Svenska köpare frågar alltid detta.</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:12px;">Български</div>
+
+        <div class="q-row">
+          <div class="q-bg">Ако тези имоти са ограничени — има ли повече проекти в дългосрочен план?</div>
+          <div class="q-note" style="font-style:normal;">Каква е визията, ако се получи? Има ли други имоти, които могат да се продават по същия начин на шведски купувачи? Това определя колко инвестираме в изграждането на марката Solviora.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Има ли опит в продажбата на имоти — на българи или чуждестранни купувачи?</div>
+          <div class="q-note" style="font-style:normal;">Не е задължително да е същият тип проект. Какъв опит има екипът в продажба на имоти, преговори и изготвяне на договори? Влияе върху това как настройваме процеса на продажби.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Има ли завършени референтни проекти, които можем да покажем?</div>
+          <div class="q-note" style="font-style:normal;">Успял ли е екипът да достави подобен проект преди? Снимките на завършена къща са най-силното доказателство, че концепцията „от план" работи. Ако не — как убедително разказваме за способността за доставка?</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Какъв е реалистичният наемен потенциал — и какви доказателства можем да покажем?</div>
+          <div class="q-note" style="font-style:normal;">Могат ли купувачите да отдават под наем чрез Airbnb или местни канали? Доказателства могат да бъдат: подобни имоти в Airbnb в района с цени и заетост, контакт с местна управляваща компания, или туристически данни за района на Варна.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Можем ли да препоръчаме независим местен адвокат на шведските купувачи?</div>
+          <div class="q-note" style="font-style:normal;">Адвокат, нает независимо от купувача, значително укрепва доверието. „Препоръчваме ви да говорите с независим адвокат" приключва повече сделки, отколкото губи.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Какво знаем за данъчната ситуация за шведски собственици в България?</div>
+          <div class="q-note" style="font-style:normal;">Между Швеция и България има данъчна спогодба. Как се облагат приходите от наем? Какви са реалните годишни разходи за собственост — данък сгради, такси, ток, вода? Шведските купувачи винаги питат за това.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESEARCH FRÅGOR -->
+    <h3 style="color:var(--sage);margin-bottom:16px;">⚪ Kräver mer research — viktiga på lång sikt</h3>
+    <div class="two-col" style="gap:32px;">
+      <div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:12px;">Svenska</div>
+
+        <div class="q-row">
+          <div class="q-sv">Vad är prisutvecklingen för fastigheter i Varnaregionen de senaste 5–10 åren?</div>
+          <div class="q-note">Vi behöver faktiska data — inte "stigande priser" som allmänt påstående. Bulgarisk fastighetsstatistik finns tillgänglig och stärker investment-caset enormt med konkreta siffror.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Finns det andra aktörer som säljer liknande fastigheter till skandinaver?</div>
+          <div class="q-note">Att känna till konkurrensen gör att vi kan positionera oss tydligare. Vad gör vi bättre eller annorlunda än eventuella konkurrenter?</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Vad finns i närheten — sjukvård, affärer, kommunikationer?</div>
+          <div class="q-note">En 55-årig svensk tänker praktiskt. Närmaste sjukhus, mataffär, internetuppkoppling, buss eller bil nödvändig? Avgör om fastigheterna kan vara helårsboende eller enbart semesterboende.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-sv">Hur ser andrahandsmarknaden ut — om en köpare vill sälja om 5–10 år?</div>
+          <div class="q-note">Likviditeten i marknaden är en del av investment-caset. Finns lokala mäklare? Kan man sälja till andra utländska köpare? Det ger köparen trygghet i ett långsiktigt beslut.</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:12px;">Български</div>
+
+        <div class="q-row">
+          <div class="q-bg">Какво е развитието на цените на имотите в района на Варна през последните 5–10 години?</div>
+          <div class="q-note" style="font-style:normal;">Необходими са ни реални данни — не общо твърдение за „нарастващи цени". Българската статистика за имоти е достъпна и значително укрепва инвестиционния аргумент с конкретни числа.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Има ли други играчи, които продават подобни имоти на скандинавци?</div>
+          <div class="q-note" style="font-style:normal;">Познаването на конкуренцията ни позволява да се позиционираме по-ясно. Какво правим по-добре или по-различно от евентуални конкуренти?</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Какво има наблизо — здравеопазване, магазини, транспортни връзки?</div>
+          <div class="q-note" style="font-style:normal;">Шведски купувач на 55 години мисли практично. Най-близката болница, магазин за хранителни стоки, интернет връзка, нужна ли е кола? Определя дали имотите могат да бъдат целогодишно жилище или само ваканционно.</div>
+        </div>
+
+        <div class="q-row">
+          <div class="q-bg">Как изглежда вторичният пазар — ако купувач иска да продаде след 5–10 години?</div>
+          <div class="q-note" style="font-style:normal;">Ликвидността на пазара е част от инвестиционния аргумент. Има ли местни агенти за недвижими имоти? Може ли да се продаде на друг чуждестранен купувач? Дава сигурност на купувача при дългосрочно решение.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+const sections = document.querySelectorAll('.slide[id]');
+const navLinks = document.querySelectorAll('.top-nav a');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const lnk = document.querySelector(`.top-nav a[href="#${e.target.id}"]`);
+      if (lnk) { lnk.classList.add('active'); lnk.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'}); }
+    }
+  });
+}, {threshold:0.25});
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
